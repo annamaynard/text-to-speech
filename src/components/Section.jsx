@@ -45,6 +45,7 @@ const Section = ({ text, setText }) => {
       <div className="voice-selector">
         <label htmlFor="voiceSelector">Select a Voice:</label>
         <select
+
           id="voiceSelector"
           value={selectedVoice}
           onChange={(e) => setSelectedVoice(e.target.value)}
