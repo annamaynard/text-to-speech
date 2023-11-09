@@ -2,10 +2,10 @@ import React, { useState, useEffect } from 'react';
 import AWS from 'aws-sdk';
 import '../App.css';
 import AWSConfig from './AWSConfig';
-;
 
 const Section = ({ text, setText }) => {
   const [audioUrl, setAudioUrl] = useState(null);
+  const [selectedVoice, setSelectedVoice] = useState('Joanna'); 
 
   useEffect(() => {
     if (audioUrl) {
@@ -15,14 +15,14 @@ const Section = ({ text, setText }) => {
   }, [audioUrl]);
 
   const convertToSpeech = () => {
-    AWS.config.update(AWSConfig); // Set AWS Config
+    AWS.config.update(AWSConfig); 
 
     const Polly = new AWS.Polly();
 
     const params = {
       OutputFormat: 'mp3',
       Text: text,
-      VoiceId: 'Joanna'
+      VoiceId: selectedVoice
     };
 
     Polly.synthesizeSpeech(params, (err, data) => {
@@ -42,6 +42,19 @@ const Section = ({ text, setText }) => {
         value={text}
         onChange={(e) => setText(e.target.value)}
       />
+      <div className="voice-selector">
+        <label htmlFor="voiceSelector">Select a Voice:</label>
+        <select
+          id="voiceSelector"
+          value={selectedVoice}
+          onChange={(e) => setSelectedVoice(e.target.value)}
+        >
+          <option value="Joanna">Joanna</option>
+          <option value="Matthew">Matthew</option>
+          <option value="Salli">Salli</option>
+         
+        </select>
+      </div>
       <button
         className="btn-convert"
         onClick={convertToSpeech}
